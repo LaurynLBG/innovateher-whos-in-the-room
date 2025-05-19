@@ -1,0 +1,50 @@
+body {
+    text-align: center;
+    background-image: url('innovateherbg.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+}
+
+#imageUploader {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+#userInfo p {
+    margin: 2px 0;  /* Adjusted margin for smaller spacing */
+    font-size: 1.2rem;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+}
+
+input[type="file"], input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+}
+
+button {
+    background-color: hsl(191, 48%, 66%);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #8bd2d1;
+    transform: scale(1.05);
+}

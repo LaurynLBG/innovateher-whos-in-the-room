@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.11.1/firebase-storage.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js"></script>
+
+    <!-- <style>
+        body {
+            text-align: center;
+            background-color: rgb(248, 196, 236);
+        }
+        #imagePreview {
+            margin: 20px;
+            width: 100px;
+            height: 100px;
+        }
+        .uploaded-images {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .image-card {
+            margin: 15px;
+            text-align: center;
+        }
+    </style> -->
+</head>
+<body>
+    <div id="imageUploader">
+        <h1>Who's in the room?</h1>
+        <input type="file" id="fileInput" accept="image/*">
+        <input type="text" id="nameInput" placeholder="Enter your name">
+        <input type="text" id="jobTitleInput" placeholder="Enter your job title">
+        <button id="uploadImage">Upload Image</button>
+    </div>
+
+    <div class="uploaded-images" id="uploadedImages"></div>
+
+    <div id="userInfo">
+        <p id="name"></p>
+        <p id="jobTitle"></p>
+    </div>
+    
+
+    <script type="module">
+        import {initializeApp} from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+        import {getStorage, ref, uploadBytes, getDownloadURL} from "https://www.gstatic.com/firebasejs/10.11.1/firebase-storage.js";
+        import {getFirestore, collection, addDoc, onSnapshot} from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyB0tgsjJeNFvlrwAxpMd8ONP3RZFArCFQQ",
+            authDomain: "innovateher-mgmt-tst.firebaseapp.com",
+            projectId: "innovateher-mgmt-tst",
+            storageBucket: "gs://innovateher-mgmt-tst.firebasestorage.app",
+            messagingSenderId: "707135300360",
+            appId: "1:707135300360:web:ff253ec5ce3d9c276c02bd",
+            measurementId: "G-04WZKM47Q3"
+        };
+;
+
+        const app = initializeApp(firebaseConfig);
+        const storage = getStorage(app);
+        const db = getFirestore(app);
+
+        async function uploadImage() {
+            const fileInput = document.getElementById("fileInput");
+            const nameInput = document.getElementById("nameInput");
+            const jobTitleInput = document.getElementById("jobTitleInput");
+
+            const file = fileInput.files[0];
+            const name = nameInput.value.trim();
+            const jobTitle = jobTitleInput.value.trim();
+
+            if (file && name && jobTitle) {
+                const storageRef = ref(storage, `uploaded_images/${file.name}`);
+                await uploadBytes(storageRef, file);
+
+                const imageURL = await getDownloadURL(storageRef);
+
+                // Store data in Firestore
+                const docRef = await addDoc(collection(db, "images"), {
+                    imageURL: imageURL,
+                    name: name,
+                    jobTitle: jobTitle,
+                });
+
+                // Clear input fields
+                fileInput.value = "";
+                nameInput.value = "";
+                jobTitleInput.value = "";
+
+                // Fetch and display all images from Firestore
+                fetchImages();
+            }
+        }
+
+        async function fetchImages() {
+            const imagesSnapshot = await getDocs(collection(db, "images"));
+            const imagesContainer = document.getElementById("uploadedImages");
+
+            imagesContainer.innerHTML = ""; // Clear current images
+
+            imagesSnapshot.forEach((doc) => {
+                const data = doc.data();
+
+                const imageCard = document.createElement("div");
+                imageCard.className = "image-card";
+
+                const image = document.createElement("img");
+                image.src = data.imageURL;
+                image.alt = "Uploaded Image";
+                image.width = 100;
+                image.height = 100;
+
+                const name = document.createElement("p");
+                name.textContent = data.name;
+
+                const jobTitle = document.createElement("p");
+                jobTitle.textContent = data.jobTitle;
+
+                imageCard.appendChild(image);
+                imageCard.appendChild(name);
+                imageCard.appendChild(jobTitle);
+                imagesContainer.appendChild(imageCard);
+            });
+        }
+
+        const uploadButton = document.getElementById("uploadImage");
+        uploadButton.addEventListener('click', uploadImage);
+
+        // Fetch and display images on page load
+        fetchImages();
+    </script>
+
+</body>
+</html>
