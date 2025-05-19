@@ -1,6 +1,6 @@
-# 📸 Cloud Photo Wall
+# 📸 Who's in the room?
 
-**Cloud Photo Wall** is a beginner-friendly web app that allows users to upload an image along with their name and job title. The images are stored in **Firebase Storage**, while user details are saved in **Cloud Firestore**. All uploads appear live on the page, shared across all connected devices.
+**Who's in the room ?** is a beginner-friendly web app that allows users to upload an image along with their name and job title. The images are stored in **Firebase Storage**, while user details are saved in **Cloud Firestore**. All uploads appear live on the page, shared across all connected devices.
 
 ## 🚀 Features
 - Upload an image with name and job title
