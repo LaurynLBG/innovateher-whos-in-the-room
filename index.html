@@ -53,15 +53,13 @@
         import {getFirestore, collection, addDoc, onSnapshot} from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyB0tgsjJeNFvlrwAxpMd8ONP3RZFArCFQQ",
-            authDomain: "innovateher-mgmt-tst.firebaseapp.com",
-            projectId: "innovateher-mgmt-tst",
-            storageBucket: "gs://innovateher-mgmt-tst.firebasestorage.app",
-            messagingSenderId: "707135300360",
-            appId: "1:707135300360:web:ff253ec5ce3d9c276c02bd",
-            measurementId: "G-04WZKM47Q3"
+              apiKey: "YOUR_API_KEY",
+              authDomain: "YOUR_PROJECT.firebaseapp.com",
+              projectId: "YOUR_PROJECT",
+              storageBucket: "YOUR_PROJECT.appspot.com",
+              messagingSenderId: "YOUR_ID",
+              appId: "YOUR_APP_ID"
         };
-;
 
         const app = initializeApp(firebaseConfig);
         const storage = getStorage(app);
